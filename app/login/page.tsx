@@ -28,7 +28,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center p-6">
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
-          <p className="font-mono text-xs tracking-[0.2em] text-tape uppercase mb-2">Staff entry</p>
+          <p className="font-mono text-xs tracking-[0.2em] text-tape uppercase mb-2">Sharmilee Boutique</p>
           <h1 className="font-display text-3xl font-600 text-ink">The Measurement Book</h1>
         </div>
 
