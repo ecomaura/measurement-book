@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import AuthGuard from "@/components/AuthGuard";
 import { supabase } from "@/lib/supabase";
+import { BRAND_NAME } from "@/lib/fields";
 
 type Client = {
   id: string;
@@ -85,7 +86,7 @@ function HomeInner() {
     <div className="max-w-2xl mx-auto px-5 py-8 sm:py-12">
       <header className="flex items-start justify-between mb-8">
         <div>
-          <p className="font-mono text-xs tracking-[0.2em] text-tape uppercase mb-1">Ledger</p>
+          <p className="font-mono text-xs tracking-[0.2em] text-tape uppercase mb-1">{BRAND_NAME}</p>
           <h1 className="font-display text-3xl sm:text-4xl font-600 text-ink leading-none">
             The Measurement Book
           </h1>
