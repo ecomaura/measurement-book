@@ -22,7 +22,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "The Measurement Book",
+  title: "Sharmilee Boutique — The Measurement Book",
   description: "A digital measurement book for client fittings.",
 };
 
