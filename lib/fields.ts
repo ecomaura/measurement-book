@@ -1,16 +1,35 @@
 // Exact field sets from the client's Blouse / Kurta Set measurement forms.
 // Keys are stored inside the `fields` JSONB column on the `measurements` table.
 
-export type FieldDef = {
+export type SimpleFieldDef = {
   key: string;
   label: string;
   type: "text" | "textarea";
 };
 
+// A "pair" renders as one label with two side-by-side boxes (e.g. Chest: U | P),
+// matching how the client actually writes it on paper. The two boxes still save
+// to two independent keys under the hood, so nothing about storage changes.
+export type PairFieldDef = {
+  key: string; // used only as a React key / grouping id, not stored directly
+  label: string;
+  type: "pair";
+  subFields: [{ key: string; shortLabel: string }, { key: string; shortLabel: string }];
+};
+
+export type FieldDef = SimpleFieldDef | PairFieldDef;
+
 export const BLOUSE_FIELDS: FieldDef[] = [
   { key: "blouseHeight", label: "Blouse Height", type: "text" },
-  { key: "chestUpper", label: "Chest — Upper", type: "text" },
-  { key: "chestProper", label: "Chest — Proper", type: "text" },
+  {
+    key: "chest",
+    label: "Chest",
+    type: "pair",
+    subFields: [
+      { key: "chestUpper", shortLabel: "Upper (U)" },
+      { key: "chestProper", shortLabel: "Proper (P)" },
+    ],
+  },
   { key: "waistFitting", label: "Waist Fitting", type: "text" },
   { key: "neck", label: "Neck", type: "text" },
   { key: "shoulder", label: "Shoulder", type: "text" },
@@ -27,8 +46,15 @@ export const BLOUSE_FIELDS: FieldDef[] = [
 export const KURTA_FIELDS: FieldDef[] = [
   { key: "kurtaHeight", label: "Kurta Height", type: "text" },
   { key: "waistHeight", label: "Waist Height", type: "text" },
-  { key: "chestUpper", label: "Chest — Upper", type: "text" },
-  { key: "chestProper", label: "Chest — Proper", type: "text" },
+  {
+    key: "chest",
+    label: "Chest",
+    type: "pair",
+    subFields: [
+      { key: "chestUpper", shortLabel: "Upper (U)" },
+      { key: "chestProper", shortLabel: "Proper (P)" },
+    ],
+  },
   { key: "waistFitting", label: "Waist Fitting", type: "text" },
   { key: "hip", label: "Hip", type: "text" },
   { key: "neck", label: "Neck", type: "text" },
@@ -56,3 +82,5 @@ export const TYPE_LABEL: Record<MeasurementType, string> = {
   blouse: "Blouse",
   kurta: "Kurta Set",
 };
+
+export const BRAND_NAME = "Sharmilee Boutique";
