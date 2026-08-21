@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
-import { supabase } from "@/lib/supabase";
+import NavBar from "@/components/NavBar";
 import Logo from "@/components/Logo";
+import { supabase } from "@/lib/supabase";
 
 type Client = {
   id: string;
@@ -15,34 +16,29 @@ type Client = {
 };
 
 function HomeInner() {
-    const router = useRouter();
-  const [query, setQuery] = useState("");
-  const [clients, setClients] = useState<Client[]>([]);
+  const router = useRouter();
+  const [recent, setRecent] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAdd, setShowAdd] = useState(false);
   const [newName, setNewName] = useState("");
   const [newContact, setNewContact] = useState("");
   const [saving, setSaving] = useState(false);
 
-  async function loadClients() {
+  async function loadRecent() {
     setLoading(true);
-    const req = supabase
+    const { data } = await supabase
       .from("clients")
       .select("id,name,contact,created_at")
       .eq("is_deleted", false)
-      .order("name", { ascending: true });
-    const { data } = query
-      ? await req.ilike("name", `%${query}%`)
-      : await req;
-    setClients(data ?? []);
+      .order("created_at", { ascending: false })
+      .limit(5);
+    setRecent(data ?? []);
     setLoading(false);
   }
 
   useEffect(() => {
-    const t = setTimeout(loadClients, 200);
-    return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+    loadRecent();
+  }, []);
 
   async function handleAddClient(e: React.FormEvent) {
     e.preventDefault();
@@ -85,8 +81,8 @@ function HomeInner() {
 
   return (
     <div className="max-w-2xl mx-auto px-5 py-8 sm:py-12">
-     <header className="flex items-start justify-between mb-8">
-  <Logo size="lg" />
+      <header className="flex items-start justify-between mb-6">
+        <Logo size="lg" />
         <div className="flex flex-col items-end gap-1 mt-2">
           <button
             onClick={handleExportBackup}
@@ -103,13 +99,9 @@ function HomeInner() {
         </div>
       </header>
 
-      <div className="flex gap-3 mb-6">
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search a client by name…"
-          className="flex-1 border border-line bg-card rounded-sm px-4 py-3 text-ink font-body focus:outline-none focus:border-tape"
-        />
+      <NavBar />
+
+      <div className="flex justify-end mb-6">
         <button
           onClick={() => setShowAdd((s) => !s)}
           className="bg-ink text-card font-body font-500 rounded-sm px-4 py-3 hover:bg-tape-dark transition-colors whitespace-nowrap"
@@ -159,21 +151,25 @@ function HomeInner() {
               disabled={saving}
               className="bg-tape text-card font-body font-500 rounded-sm px-4 py-2 hover:bg-tape-dark transition-colors disabled:opacity-60"
             >
-              {saving ? "Saving…" : "Save client"}
+              {saving ? "Saving…" : "Save & continue"}
             </button>
           </div>
         </form>
       )}
 
+      <h2 className="font-mono text-xs uppercase tracking-wide text-ink-soft mb-3">
+        Recently added
+      </h2>
+
       {loading ? (
         <p className="font-mono text-sm text-ink-soft">turning pages…</p>
-      ) : clients.length === 0 ? (
+      ) : recent.length === 0 ? (
         <p className="font-mono text-sm text-ink-soft">
-          {query ? "No client matches that name yet." : "No clients yet — add the first one above."}
+          No clients yet — add the first one above.
         </p>
       ) : (
         <ul className="space-y-2">
-          {clients.map((c) => (
+          {recent.map((c) => (
             <li key={c.id}>
               <Link
                 href={`/clients/${c.id}`}
@@ -188,6 +184,15 @@ function HomeInner() {
           ))}
         </ul>
       )}
+
+      <div className="text-center mt-6">
+        <Link
+          href="/search"
+          className="font-mono text-xs text-ink-soft hover:text-tape-dark underline underline-offset-4"
+        >
+          see all clients →
+        </Link>
+      </div>
     </div>
   );
 }
