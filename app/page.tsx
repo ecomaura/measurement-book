@@ -99,7 +99,7 @@ function HomeInner() {
 
       <div className="flex flex-col items-center mb-6">
         <Logo size="lg" />
-        <p className="font-garamond font-bold text-3xl sm:text-4xl uppercase mt-2" style={{ color: "#311503" }}>{BRAND_NAME}</p>
+                <p className="font-garamond font-bold text-lg sm:text-xl uppercase text-center mt-2" style={{ color: "#311503" }}>{BRAND_NAME}</p>
       </div>
 
       <NavBar />
