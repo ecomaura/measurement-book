@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
 import NavBar from "@/components/NavBar";
 import Logo from "@/components/Logo";
+import { BRAND_NAME } from "@/lib/fields";
 import { supabase } from "@/lib/supabase";
 
 type Client = {
@@ -81,23 +82,25 @@ function HomeInner() {
 
   return (
     <div className="max-w-2xl mx-auto px-5 py-8 sm:py-12">
-      <header className="flex items-start justify-between mb-6">
+            <div className="flex justify-end gap-4 mb-4">
+        <button
+          onClick={handleExportBackup}
+          className="font-mono text-xs text-thread hover:text-tape-dark underline underline-offset-4"
+        >
+          export backup
+        </button>
+        <button
+          onClick={handleLogout}
+          className="font-mono text-xs text-ink-soft hover:text-tape-dark underline underline-offset-4"
+        >
+          sign out
+        </button>
+      </div>
+
+      <div className="flex flex-col items-center mb-6">
         <Logo size="lg" />
-        <div className="flex flex-col items-end gap-1 mt-2">
-          <button
-            onClick={handleExportBackup}
-            className="font-mono text-xs text-thread hover:text-tape-dark underline underline-offset-4"
-          >
-            export backup
-          </button>
-          <button
-            onClick={handleLogout}
-            className="font-mono text-xs text-ink-soft hover:text-tape-dark underline underline-offset-4"
-          >
-            sign out
-          </button>
-        </div>
-      </header>
+        <p className="font-mono text-xs tracking-[0.2em] text-tape uppercase mt-2">{BRAND_NAME}</p>
+      </div>
 
       <NavBar />
 
