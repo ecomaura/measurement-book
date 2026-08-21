@@ -5,6 +5,7 @@ import Link from "next/link";
 import AuthGuard from "@/components/AuthGuard";
 import NavBar from "@/components/NavBar";
 import Logo from "@/components/Logo";
+import { BRAND_NAME } from "@/lib/fields";
 import { supabase } from "@/lib/supabase";
 
 type Client = {
@@ -41,9 +42,10 @@ function SearchInner() {
 
   return (
     <div className="max-w-2xl mx-auto px-5 py-8 sm:py-12">
-      <header className="flex items-start justify-between mb-6">
+            <div className="flex flex-col items-center mb-6">
         <Logo size="lg" />
-      </header>
+        <p className="font-mono text-xs tracking-[0.2em] text-tape uppercase mt-2">{BRAND_NAME}</p>
+      </div>
 
       <NavBar />
 
