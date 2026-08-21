@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces, IBM_Plex_Sans, IBM_Plex_Mono, EB_Garamond } from "next/font/google";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -20,6 +20,11 @@ const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   weight: ["400", "500", "600"],
 });
+const garamond = EB_Garamond({
+  subsets: ["latin"],
+  variable: "--font-garamond",
+  weight: ["700"],
+});
 
 export const metadata: Metadata = {
   title: "Sharmilee Boutique — The Measurement Book",
@@ -32,7 +37,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable}`}>
+        <html lang="en" className={`${fraunces.variable} ${plexSans.variable} ${plexMono.variable} ${garamond.variable}`}>
       <body className="font-body min-h-screen">{children}</body>
     </html>
   );
