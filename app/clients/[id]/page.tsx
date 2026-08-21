@@ -96,6 +96,17 @@ function ClientDetailInner() {
     load();
   }
 
+    async function handleDeleteClient() {
+    if (
+      !confirm(
+        "Delete this client? Their measurement history will be hidden from the app but not permanently destroyed."
+      )
+    )
+      return;
+    await supabase.from("clients").update({ is_deleted: true }).eq("id", clientId);
+    router.push("/search");
+  }
+
   if (loading && !client) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -193,12 +204,20 @@ function ClientDetailInner() {
                 )}
               </div>
             </div>
-            <button
-              onClick={startEditingClient}
-              className="font-mono text-xs text-ink-soft hover:text-tape-dark underline underline-offset-4 whitespace-nowrap mt-1"
-            >
-              edit details
-            </button>
+                        <div className="flex flex-col items-end gap-1 mt-1">
+              <button
+                onClick={startEditingClient}
+                className="font-mono text-xs text-ink-soft hover:text-tape-dark underline underline-offset-4 whitespace-nowrap"
+              >
+                edit details
+              </button>
+              <button
+                onClick={handleDeleteClient}
+                className="font-mono text-xs text-tape hover:text-tape-dark underline underline-offset-4 whitespace-nowrap"
+              >
+                delete client
+              </button>
+            </div>
           </div>
         )}
       </header>
