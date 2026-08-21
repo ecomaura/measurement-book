@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
 import { supabase } from "@/lib/supabase";
 import Logo from "@/components/Logo";
@@ -14,6 +15,7 @@ type Client = {
 };
 
 function HomeInner() {
+    const router = useRouter();
   const [query, setQuery] = useState("");
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,15 +48,14 @@ function HomeInner() {
     e.preventDefault();
     if (!newName.trim()) return;
     setSaving(true);
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from("clients")
-      .insert({ name: newName.trim(), contact: newContact.trim() || null });
+      .insert({ name: newName.trim(), contact: newContact.trim() || null })
+      .select()
+      .single();
     setSaving(false);
-    if (!error) {
-      setNewName("");
-      setNewContact("");
-      setShowAdd(false);
-      loadClients();
+    if (!error && data) {
+      router.push(`/clients/${data.id}`);
     }
   }
 
