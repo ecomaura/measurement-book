@@ -85,16 +85,8 @@ function HomeInner() {
 
   return (
     <div className="max-w-2xl mx-auto px-5 py-8 sm:py-12">
-      <header className="flex items-start justify-between mb-8">
-        <div className="flex items-center gap-3">
-          <Logo />
-          <div>
-            <p className="font-mono text-xs tracking-[0.2em] text-tape uppercase mb-1">{BRAND_NAME}</p>
-            <h1 className="font-display text-3xl sm:text-4xl font-600 text-ink leading-none">
-              The Measurement Book
-            </h1>
-          </div>
-        </div>
+     <header className="flex items-start justify-between mb-8">
+  <Logo size="lg" />
         <div className="flex flex-col items-end gap-1 mt-2">
           <button
             onClick={handleExportBackup}
