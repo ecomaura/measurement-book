@@ -99,7 +99,7 @@ function HomeInner() {
 
       <div className="flex flex-col items-center mb-6">
         <Logo size="lg" />
-        <p className="font-mono text-xs tracking-[0.2em] text-tape uppercase mt-2">{BRAND_NAME}</p>
+                <p className="font-garamond font-bold text-3xl sm:text-4xl text-tape mt-2">{BRAND_NAME}</p>
       </div>
 
       <NavBar />
