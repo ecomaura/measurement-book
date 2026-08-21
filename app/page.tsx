@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import AuthGuard from "@/components/AuthGuard";
 import { supabase } from "@/lib/supabase";
-import { BRAND_NAME } from "@/lib/fields";
 import Logo from "@/components/Logo";
 
 type Client = {
