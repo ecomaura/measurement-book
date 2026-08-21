@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import AuthGuard from "@/components/AuthGuard";
+import HomeButton from "@/components/HomeButton";
 import { supabase } from "@/lib/supabase";
 import { fieldsFor, MeasurementType, TYPE_LABEL } from "@/lib/fields";
 
@@ -50,12 +51,13 @@ function PrintInner() {
     );
   }
 
-  const fields = fieldsFor(record.type).filter((f) => record.fields[f.key]?.trim());
+  const fields = fieldsFor(record.type);
 
   return (
     <div className="max-w-md mx-auto px-5 py-8">
       {/* Controls — hidden on the printed slip itself */}
       <div className="mb-6 flex flex-wrap items-center gap-3 print:hidden">
+        <HomeButton />
         <span className="font-mono text-xs text-ink-soft uppercase tracking-wide">Roll width</span>
         <div className="flex border border-line rounded-sm overflow-hidden">
           {(["58", "80"] as const).map((w) => (
@@ -89,12 +91,30 @@ function PrintInner() {
         </p>
         <div className="border-t border-dashed border-ink/30 mb-3" />
         <div className="space-y-2">
-          {fields.map((f) => (
-            <div key={f.key} className="leading-tight">
-              <div className="text-[0.7rem] uppercase tracking-wide opacity-70">{f.label}</div>
-              <div className="text-sm font-600">{record.fields[f.key]}</div>
-            </div>
-          ))}
+          {fields.map((f) => {
+            if (f.type === "pair") {
+              const [a, b] = f.subFields;
+              const va = record.fields[a.key]?.trim();
+              const vb = record.fields[b.key]?.trim();
+              if (!va && !vb) return null;
+              return (
+                <div key={f.key} className="leading-tight">
+                  <div className="text-[0.7rem] uppercase tracking-wide opacity-70">{f.label}</div>
+                  <div className="text-sm font-600">
+                    {va ? `U ${va}` : "U —"} / {vb ? `P ${vb}` : "P —"}
+                  </div>
+                </div>
+              );
+            }
+            const value = record.fields[f.key]?.trim();
+            if (!value) return null;
+            return (
+              <div key={f.key} className="leading-tight">
+                <div className="text-[0.7rem] uppercase tracking-wide opacity-70">{f.label}</div>
+                <div className="text-sm font-600">{value}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
