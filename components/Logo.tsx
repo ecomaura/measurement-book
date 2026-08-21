@@ -6,7 +6,7 @@ type Props = {
 };
 
 export default function Logo({ size = "sm" }: Props) {
-  const dimension = size === "lg" ? 56 : 36;
+  const dimension = size === "lg" ? 96 : 64;
 
   return (
     <div className="flex items-center gap-2.5">
