@@ -15,10 +15,11 @@ const config: Config = {
         brass: "#A9812F", // hardware accent, used sparingly
         line: "#CFC3A3", // hairline / dotted leaders
       },
-      fontFamily: {
+           fontFamily: {
         display: ["var(--font-fraunces)", "serif"],
         body: ["var(--font-plex-sans)", "sans-serif"],
         mono: ["var(--font-plex-mono)", "monospace"],
+        garamond: ["var(--font-garamond)", "serif"],
       },
       backgroundImage: {
         canvas:
