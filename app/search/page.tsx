@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import AuthGuard from "@/components/AuthGuard";
 import NavBar from "@/components/NavBar";
-import Logo from "@/components/Logo";
+
 import { BRAND_NAME } from "@/lib/fields";
 import { supabase } from "@/lib/supabase";
 
@@ -42,9 +42,8 @@ function SearchInner() {
 
   return (
     <div className="max-w-2xl mx-auto px-5 py-8 sm:py-12">
-            <div className="flex flex-col items-center mb-6">
-        <Logo size="lg" />
-                <p className="font-garamond font-bold text-lg sm:text-xl uppercase text-center mt-2" style={{ color: "#311503" }}>{BRAND_NAME}</p>
+                  <div className="flex flex-col items-center mb-6">
+        <p className="font-garamond font-bold text-lg sm:text-xl uppercase text-center" style={{ color: "#311503" }}>{BRAND_NAME}</p>
       </div>
 
       <NavBar />
